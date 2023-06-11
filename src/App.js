@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Navbar, Cart } from "./components";
+import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
+
+import { CartContext } from "./components/helper/CartContext";
+import Product from "./components/product/Product";
+import Home from "./components/home/Home";
 
 function App() {
+  const [cart, setCart] = useState([]);
+  const [isToggled, setIsToggled] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <CartContext.Provider value={{ setCart, cart }}>
+      <Navbar cart={cart} isToggled={isToggled} setIsToggled={setIsToggled} />
+      <Routes>
+        <Route path="product/:id" element={<Product />} />
+        <Route path="/" element={<Home />} />
+      </Routes>
+      <Cart isToggled={isToggled} setIsToggled={setIsToggled} />
+    </CartContext.Provider>
   );
 }
 
